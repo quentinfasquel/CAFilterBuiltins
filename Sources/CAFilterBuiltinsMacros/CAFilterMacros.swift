@@ -5,10 +5,10 @@
 //  Created by Quentin Fasquel on 01/09/2025.
 //
 
-import CAFilter
+package import CAFilter
 
 @attached(member, names: arbitrary)
-public macro CAFilter(type: CAFilterType, protocol: Any.Type) = #externalMacro(
+package macro CAFilter(type: CAFilterType, protocol: Any.Type) = #externalMacro(
     module: "CAFilterBuiltinsMacrosCore",
     type: "CAFilterMacro"
 )

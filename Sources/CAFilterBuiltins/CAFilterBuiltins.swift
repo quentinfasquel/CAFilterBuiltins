@@ -763,7 +763,7 @@ extension CAVibrantColorMatrixSourceOver where Self: _CAFilter {
 // MARK: - Static Methods
 
 @CAFilter(type: .alphaThreshold, protocol: CAAlphaThreshold.self)
-@CAFilter(type: .alphaSmoothThreshold, protocol: CAAlphaSmoothThreshold.self)
+@CAFilter(type: .alphaSmoothThreshold, protocol: CAMultiplyColor.self)
 @CAFilter(type: .multiplyColor, protocol: CAMultiplyColor.self)
 @CAFilter(type: .colorAdd, protocol: CAColorAdd.self)
 @CAFilter(type: .colorSubtract, protocol: CAColorSubtract.self)

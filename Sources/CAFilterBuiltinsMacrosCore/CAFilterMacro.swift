@@ -32,12 +32,13 @@ public struct CAFilterMacro: MemberMacro {
         
         let member: DeclSyntax = """
             final class \(raw: concreteName): _CAFilter, \(raw: protoName) {
-              init() {
-                super.init(type: \(typeExpr))!
+              convenience init() {
+                self.init(type: \(typeExpr))!
               }
             }
             public static func \(raw: factoryName)() -> _CAFilter & \(raw: protoName) {
               \(raw: concreteName)()
+            //  self.init(type: \"\(typeExpr)\") as! _CAFilter & \(raw: protoName) 
             }
             """
         return [member]

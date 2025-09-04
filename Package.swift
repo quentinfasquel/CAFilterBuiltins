@@ -1,4 +1,4 @@
-// swift-tools-version: 6.2
+// swift-tools-version: 6.1
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import CompilerPluginSupport
@@ -21,7 +21,14 @@ let package = Package(
     ],
     targets: [
         .target(
+            name: "CAFilterProxy",
+            publicHeadersPath: "."
+        ),
+        .target(
             name: "CAFilter",
+            dependencies: [
+                "CAFilterProxy"
+            ],
         ),
         .target(
             name: "CAFilterBuiltins",

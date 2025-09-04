@@ -13,32 +13,21 @@ public struct DynamicLookupMacro: AccessorMacro {
         guard let variableDecl = declaration.as(VariableDeclSyntax.self),
               let binding = variableDecl.bindings.first,
               let varId = binding.pattern.as(IdentifierPatternSyntax.self),
-              let typeAnnotation = binding.typeAnnotation else {
+              let _ = binding.typeAnnotation else {
             throw CustomError("DynamicLookup macro requires the property to have an explicit type annotation.")
         }
 
         let propertyName = varId.identifier.text
-        let propertyType = typeAnnotation.type.description.trimmingCharacters(in: .whitespacesAndNewlines)
-
-        // Prefer the property's initializer as default value if present: `var foo: T = <expr>`
-        let initializerExpr = binding.initializer?.value
-
-        // Determine fallback expression for getter
-        let fallbackExpr: String
-        if let initializerExpr {
-            fallbackExpr = initializerExpr.description
-        } else if propertyType.hasSuffix("?") {
-            fallbackExpr = "nil"
-        } else {
-            throw CustomError("DynamicLookup requires either an initializer (e.g. '= …') or an optional type for '\(propertyName)'.")
-        }
+//        let propertyType = typeAnnotation.type.description.trimmingCharacters(in: .whitespacesAndNewlines)
 
         let getter = AccessorDeclSyntax(
-            "get { self[dynamicMember: \"\(raw: propertyName)\"] ?? \(raw: fallbackExpr) }"
+            "get { value(forKey: \"\(raw: propertyName)\") }"
         )
+
         let setter = AccessorDeclSyntax(
-            "set { self[dynamicMember: \"\(raw: propertyName)\"] = newValue }"
+            "set { self.setValue(newValue, forKey: \"\(raw: propertyName)\") }"
         )
+
         return [getter, setter]
     }
 }
